@@ -87,13 +87,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               () => textfield(
                 hintText: "Enter Your Password",
                 controller: login.passwordController,
-                image: GestureDetector(
-                  child: Icon(
-                    login.isObscure.value ? Icons.visibility_off : Icons.visibility,
-                    color: !login.isObscure.value ? Colors.orange : Colors.grey,
-                  ),
+                isObscure: login.isObscure2.value,
+                image: ObsecureIcon(
+                  isVisible: login.isObscure2.value,
                   onTap: () {
-                    login.isObscure.value = !login.isObscure.value;
+                    login.isObscure2.value = !login.isObscure2.value;
                   },
                 ),
               ),
@@ -106,13 +104,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
               () => textfield(
                 hintText: "Enter Your Password",
                 controller: login.passwordController,
-                image: GestureDetector(
-                  child: Icon(
-                    login.isObscure.value ? Icons.visibility_off : Icons.visibility,
-                    color: !login.isObscure.value ? Colors.orange : Colors.grey,
-                  ),
+                isObscure: login.isObscure1.value,
+                image: ObsecureIcon(
+                  isVisible: login.isObscure1.value,
                   onTap: () {
-                    login.isObscure.value = !login.isObscure.value;
+                    login.isObscure1.value = !login.isObscure1.value;
                   },
                 ),
               ),
@@ -130,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Textinput(
-                  textname: "Don’t have an account?",
+                  textname: "You have an account?",
                   fontsize: 16,
                 ),
                 InkWell(
@@ -138,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Get.back();
                   }),
                   child: const Textinput(
-                    textname: "Sign Up",
+                    textname: "Sign In",
                     fontsize: 16,
                     color: Colors.green,
                     fontWeight: FontWeight.w600,

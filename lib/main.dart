@@ -52,11 +52,9 @@ class MyApp extends StatelessWidget {
               Obx(() => textfield(
                     hintText: "Enter Your Password",
                     controller: login.passwordController,
-                    image: GestureDetector(
-                      child: Icon(
-                        login.isObscure.value ? Icons.visibility_off : Icons.visibility,
-                        color: !login.isObscure.value ? Colors.orange : Colors.grey,
-                      ),
+                    isObscure: login.isObscure.value,
+                    image: ObsecureIcon(
+                      isVisible: login.isObscure.value,
                       onTap: () {
                         login.isObscure.value = !login.isObscure.value;
                       },

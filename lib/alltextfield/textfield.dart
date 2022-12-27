@@ -124,7 +124,7 @@ Future<void> selectDate(BuildContext context) async {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Colors.orange, // header background color
+              primary: Colors.green, // header background color
               onPrimary: Colors.white, // header text color
               onSurface: Color(0xff111A2C), // body text color
             ),
@@ -143,5 +143,23 @@ Future<void> selectDate(BuildContext context) async {
   } else {
     log("Date is not selected");
     //setState(() => selectedDate = picked ?? "");
+  }
+}
+
+class ObsecureIcon extends StatelessWidget {
+  const ObsecureIcon({Key? key, required this.isVisible, required this.onTap}) : super(key: key);
+
+  final bool isVisible;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Icon(
+        isVisible ? Icons.visibility_off : Icons.visibility,
+        color: isVisible ? Colors.green : Colors.grey,
+      ),
+      onTap: onTap,
+    );
   }
 }

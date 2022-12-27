@@ -9,6 +9,8 @@ class AuthController extends GetxController {
   TextEditingController dobController = TextEditingController();
   TextEditingController dropdownController = TextEditingController();
   RxBool isObscure = true.obs;
+  RxBool isObscure1 = true.obs;
+  RxBool isObscure2 = true.obs;
   RxString? selectedValue;
   DateTime selectedDate = DateTime.now();
   DateTime userDateOfBirth = DateTime.now();
