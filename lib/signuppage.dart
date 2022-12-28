@@ -54,12 +54,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       image: ObsecureIcon(isVisible: login.isObscure2.value, onTap: () => login.isObscure2.value = !login.isObscure2.value))),
                   const Textinput(textname: "Confirm Password", fontWeight: FontWeight.w600),
                   Obx(() => textfield(
-                      hintText: "Enter Your Password",
-                      controller: login.passwordController,
+                      hintText: "Enter Your Confirm Password",
+                      controller: login.confirmController,
                       isObscure: login.isObscure1.value,
                       image: ObsecureIcon(isVisible: login.isObscure1.value, onTap: () => login.isObscure1.value = !login.isObscure1.value))),
                   const SizedBox(height: 15),
-                  InkWell(onTap: () async => checkValidation(), child: const greenContainer(buttonName: "Sign Up")),
+                  InkWell(
+                      onTap: () async {
+                        checkValidation();
+                      },
+                      child: const greenContainer(buttonName: "Sign Up")),
                   const SizedBox(height: 15),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     const Textinput(textname: "You have an account?", fontsize: 16),

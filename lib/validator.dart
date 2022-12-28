@@ -1,8 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:ui_base_project/controller/logincontroller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ui_base_project/model/usermodel.dart';
+
+import 'main.dart';
+import 'package:ui_base_project/validator.dart';
 
 extension Utility on String {
   toast() => Fluttertoast.showToast(msg: this, gravity: ToastGravity.CENTER, backgroundColor: Color(0xff505050), toastLength: Toast.LENGTH_SHORT);
@@ -14,6 +21,39 @@ String? phoneValidator(String? value) {
   }
 
   return null;
+}
+
+disposeProgress() {
+  Get.back();
+}
+
+customDialog({
+  bool barrierDismissible = true,
+  var isLoader = false,
+  Widget widget = const Text('Pass sub widgets'),
+}) async {
+  var result = await Get.dialog(
+      isLoader
+          ? widget
+          : Align(
+              alignment: Alignment.center,
+              child: widget,
+            ),
+      barrierDismissible: barrierDismissible);
+  if (result != null) return result;
+}
+
+launchProgress({
+  String message = 'Processing..',
+}) {
+  customDialog(
+      isLoader: true,
+      barrierDismissible: false,
+      widget: const Center(
+          child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.deepOrange),
+        //   backgroundColor: Color(0xffDBB77C),
+      )));
 }
 
 bool checkValidEmail(String email) {
@@ -39,7 +79,6 @@ String? emailValidator(String? value) {
   return null;
 }
 
-// password field validator
 String? passwordValidator(String? value) {
   if (value == null || value.isEmpty) {
     return 'Please enter password';
@@ -99,5 +138,21 @@ checkValidation() async {
       "Passwords does not match".toast();
       return;
     }
+    launchProgress();
+
+    var snapshot = await FirebaseFirestore.instance.collection("users").where("email", isEqualTo: login.emailController.text).get();
+    disposeProgress();
+    if (snapshot.docs.isNotEmpty && snapshot.docs[0].exists) {
+      "This email id already exists".toast();
+      return;
+    }
+    launchProgress();
+    ProfileModel profileModel = ProfileModel(email: login.emailController.text, name: login.nameController.text, dateofBirth: login.dobController.text);
+    login.profileModel.value = profileModel;
+
+    await FirebaseFirestore.instance.collection("users").doc().set(profileModel.toJson());
   }
+
+  disposeProgress();
+  Get.back();
 }
