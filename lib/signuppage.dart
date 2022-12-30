@@ -12,14 +12,9 @@ import 'package:ui_base_project/controller/logincontroller.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:ui_base_project/validator.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({super.key});
 
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
   final AuthController login = Get.find();
 
   @override

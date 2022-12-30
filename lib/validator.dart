@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_core/get_core.dart';
@@ -7,6 +8,8 @@ import 'package:ui_base_project/controller/logincontroller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ui_base_project/model/usermodel.dart';
+import 'package:ui_base_project/signinpage.dart';
+import 'package:ui_base_project/signuppage.dart';
 
 import 'main.dart';
 import 'package:ui_base_project/validator.dart';
@@ -148,11 +151,21 @@ checkValidation() async {
     }
     launchProgress();
     ProfileModel profileModel = ProfileModel(email: login.emailController.text, name: login.nameController.text, dateofBirth: login.dobController.text);
-    login.profileModel.value = profileModel;
+
+    final user = FirebaseAuth.instance.createUserWithEmailAndPassword(email: login.emailController.text, password: login.passwordController.text);
+    print(user);
+
+    // login.profileModel.value = profileModel;
 
     await FirebaseFirestore.instance.collection("users").doc().set(profileModel.toJson());
   }
 
   disposeProgress();
-  Get.back();
+  login.confirmController.clear();
+  login.dobController.clear();
+  login.passwordController.clear();
+  login.emailController.clear();
+  login.nameController.clear();
+
+  Get.off(SignInScreen());
 }
