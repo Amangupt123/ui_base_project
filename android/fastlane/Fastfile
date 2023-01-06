@@ -13,57 +13,57 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-# default_platform(:android)
-
-# platform :android do
-#  desc "Deploy to Firebase app distribution"
-#  lane :deploy do
-#   begin
-#   firebase_app_distribution(
-#    groups: "first",
-#    release_notes: "Fixing bug in features",
-#    apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
-#    firebase_cli_path: "/usr/local/bin/firebase",
-#    firebase_cli_token: "1//0g38TCkOToItyCgYIARAAGBASNwF-L9Ir4sthO1bPlEfkd0JmxsxcnbstqlJnPBFUR-HgKblgbcfGguGr8qoZlXNoBshxDLX8BHY"
-#    app: "1:301906856734:android:0403d5568340e3c50c170f"
-#   )
-#   end
-#  end
-# end
 default_platform(:android)
 
 platform :android do
-
-  before_all do
-    ENV["FIREBASE_LOGIN_CREDENTIALS"] = "fastlane/firebase_login_credentials.json"
-    ENV["FIREBASE_APP_ID"] = "1:301906856734:android:0403d5568340e3c50c170f"
+ desc "Deploy to Firebase app distribution"
+ lane :deploy do
+  begin
+  firebase_app_distribution(
+   groups: "first",
+   release_notes: "Fixing bug in features",
+   apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
+#    firebase_cli_path: "/usr/local/bin/firebase",
+   app: "1:734864325689:android:9e08e583de3dd515bd61e8"
+#    service_credentials_file: "fastlane/firebase_login_credentials.json"
+  )
   end
-
-   ######## FIREBASE DISTRIBUTION  ########
-  desc "Submit a new Google Test Build to Firebase App Distribution"
-  lane :testGoogle do |options|
-     gradle(task: "clean")
-     gradle(task: "assemble", flavor: "Google", build_type: "Debug")
-
-      # find apk path
-     output_path = "./app/build/outputs/apk/google/debug/"
-     output_json_path = output_path + "output-metadata.json"
-     build_output = load_json(json_path: output_json_path)
-     elements = build_output["elements"][0]
-     apk_path = output_path + elements["outputFile"]
-
-     release_note_information = " BRANCH => #{git_branch} - developer: #{last_git_commit[:author]}"
-     release_note = "#{release_note_information} \n #{options[:r]}"
-
-     firebase_app_distribution(
-           app: ENV["FIREBASE_APP_ID"],
-           apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
-           release_notes: "Fixing bug in features",
-           groups_file: "fastlane/groups.txt",
-           firebase_cli_token: "1//0g38TCkOToItyCgYIARAAGBASNwF-L9Ir4sthO1bPlEfkd0JmxsxcnbstqlJnPBFUR-HgKblgbcfGguGr8qoZlXNoBshxDLX8BHY"
-           service_credentials_file: ENV["FIREBASE_LOGIN_CREDENTIALS"]
-     )
-     # fastlane testGoogle r:"First Alpha Release"
-  end
-
+ end
 end
+# default_platform(:android)
+
+# platform :android do
+
+#   before_all do
+#     ENV["FIREBASE_LOGIN_CREDENTIALS"] = "fastlane/firebase_login_credentials.json"
+#     ENV["FIREBASE_APP_ID"] = "1:734864325689:android:9e08e583de3dd515bd61e8"
+#   end
+
+#    ######## FIREBASE DISTRIBUTION  ########
+#   desc "Submit a new Google Test Build to Firebase App Distribution"
+#   lane :testGoogle do |options|
+#      gradle(task: "clean")
+#      gradle(task: "assemble", flavor: "Google", build_type: "Debug")
+
+#       # find apk path
+#      output_path = "./app/build/outputs/apk/google/debug/"
+#      output_json_path = output_path + "output-metadata.json"
+#      build_output = load_json(json_path: output_json_path)
+#      elements = build_output["elements"][0]
+#      apk_path = output_path + elements["outputFile"]
+
+#      release_note_information = " BRANCH => #{git_branch} - developer: #{last_git_commit[:author]}"
+#      release_note = "#{release_note_information} \n #{options[:r]}"
+
+#      firebase_app_distribution(
+#            app:"1:301906856734:android:0403d5568340e3c50c170f",
+#            apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
+#            release_notes: "Fixing bug in features",
+#            groups_file: "fastlane/groups.txt",
+#           #  firebase_cli_token: "1//0g38TCkOToItyCgYIARAAGBASNwF-L9Ir4sthO1bPlEfkd0JmxsxcnbstqlJnPBFUR-HgKblgbcfGguGr8qoZlXNoBshxDLX8BHY"
+#            service_credentials_file: ENV["FIREBASE_LOGIN_CREDENTIALS"]
+#      )
+#      # fastlane testGoogle r:"First Alpha Release"
+#   end
+
+# end
